@@ -18,17 +18,6 @@ type Model struct {
 	IsDel      uint8  `json:"is_del"`
 }
 
-type Tag struct {
-	//Model* Model
-	*Model
-	Name  string `json:"name"`
-	State uint8  `json:"state"`
-}
-
-func (tag Tag) TableName() string {
-	return "blog_tag"
-}
-
 func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 	db, err := gorm.Open(databaseSetting.DBType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s&parseTime=%t&loc=Local",
 		databaseSetting.UserName,
