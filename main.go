@@ -1,17 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
+	"go-blog-s/internal/routers"
+	"net/http"
+	"time"
 )
 
 func main() {
-	fmt.Printf("Hello world\n")
-	r := gin.Default()
-	r.GET("/ping", func(context *gin.Context) {
-		context.JSON(200, gin.H{"message": "pong ck!"})
-	})
-	err := r.Run()
+	router := routers.NewRouter()
+	server := http.Server{
+		Addr:           ":8080",
+		Handler:        router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	err := server.ListenAndServe()
 	if err != nil {
 		return
 	}
