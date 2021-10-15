@@ -42,3 +42,13 @@ JWT:
   Secret: ck
   Issuer: blog-service
   Expire: 7200
+
+Email:
+  Host: smtp.qq.com
+  Port: 465
+  UserName: 276128749@qq.com
+  Password: chengkun0804
+  IsSSL: true
+  From: 276128749@qq.com
+  To:
+    - 1091480019@qq.com

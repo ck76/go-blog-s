@@ -8,14 +8,33 @@ import (
 	"go-blog-s/global"
 	"go-blog-s/internal/middleware"
 	v1 "go-blog-s/internal/routers/api/v1"
+	"go-blog-s/pkg/limiter"
 	"net/http"
+	"time"
 )
+
+var methodLimiters = limiter.NewMethodLimiter().AddBuckets(limiter.LimiterBucketRule{
+	Key:          "/auth",
+	FillInterval: time.Second,
+	Capacity:     10,
+	Quantum:      10,
+})
 
 func NewRouter() *gin.Engine {
 	engine := gin.New()
-	engine.Use(gin.Logger())
-	engine.Use(gin.Recovery())
+
+	if global.ServerSetting.RunMode == "debug" {
+		engine.Use(gin.Logger())
+		engine.Use(gin.Recovery())
+	} else {
+		engine.Use(middleware.Recovery())
+		engine.Use(middleware.AccessLog())
+	}
+	engine.Use(middleware.ContextTimeout(60 * time.Second))
+	engine.Use(middleware.AppInfo()) //?????用不用
+	engine.Use(middleware.RateLimiter(methodLimiters))
 	engine.Use(middleware.Translation())
+
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	article := v1.NewArticle()
 	tag := v1.NewTag()
