@@ -5,8 +5,11 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "go-blog-s/docs"
+	"go-blog-s/global"
 	"go-blog-s/internal/middleware"
+	"go-blog-s/internal/routers/api"
 	v1 "go-blog-s/internal/routers/api/v1"
+	"net/http"
 )
 
 func NewRouter() *gin.Engine {
@@ -17,6 +20,10 @@ func NewRouter() *gin.Engine {
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	article := v1.NewArticle()
 	tag := v1.NewTag()
+	upload := api.NewUpload()
+	engine.POST("/upload/file", upload.UploadFile)
+	//访问 $HOST/static 时，应用程序会读取到 blog-service/storage/uploads 下的文件
+	engine.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 	apiv1 := engine.Group("/api/v1")
 	{
 		apiv1.POST("/tags", tag.Create)
