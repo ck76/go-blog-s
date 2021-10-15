@@ -2,11 +2,13 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"go-blog-s/global"
 	"go-blog-s/internal/model"
 	"go-blog-s/internal/routers"
 	"go-blog-s/pkg/logger"
 	"go-blog-s/pkg/setting"
+	"go-blog-s/pkg/validator"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"net/http"
@@ -33,6 +35,12 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupLogger err: %v", err)
 	}
+
+	err = setupValidator()
+	if err != nil {
+		log.Fatalf("init.setupValidator err: %v", err)
+	}
+
 }
 
 func setupSetting() error {
@@ -86,6 +94,14 @@ func setupLogger() error {
 		MaxAge:    10,
 		LocalTime: true,
 	}, "", log.LstdFlags).WithCaller(2)
+
+	return nil
+}
+
+func setupValidator() error {
+	global.Validator = validator.NewCustomValidator()
+	global.Validator.Engine()
+	binding.Validator = global.Validator
 
 	return nil
 }
