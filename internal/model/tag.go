@@ -21,6 +21,8 @@ type TagSwagger struct {
 	Pager *app.Pager
 }
 
+//TODO 一篇文章插入多个标签的数据库事务问题
+
 func (t Tag) Create(db *gorm.DB) error {
 	return db.Create(&t).Error
 }

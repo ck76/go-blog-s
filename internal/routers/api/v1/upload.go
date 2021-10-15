@@ -21,6 +21,9 @@ func NewUpload() Upload {
 func (u Upload) UploadFile(c *gin.Context) {
 	response := app.NewResponse(c)
 	file, fileHeader, err := c.Request.FormFile("file")
+	//https://www.cnblogs.com/yh2924/p/12377309.html 多文件上传
+	//form,err:=c.MultipartForm()
+	//files:=form.File["f1s"]
 	if err != nil {
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(err.Error()))
 		return

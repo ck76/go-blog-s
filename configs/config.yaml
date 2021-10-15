@@ -37,11 +37,11 @@ Database:
   MaxOpenConns: 30
 
 #设置了 JWT 令牌的 Secret（密钥）为 ck，
-#  签发者（Issuer）是 blog-service，有效时间（Expire）为 7200 秒
+#  签发者（Issuer）是 blog-service，有效时间（Expire）为 720000 秒
 JWT:
   Secret: ck
   Issuer: blog-service
-  Expire: 7200
+  Expire: 720000
 
 Email:
   Host: smtp.qq.com
