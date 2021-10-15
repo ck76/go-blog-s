@@ -35,3 +35,10 @@ Database:
   ParseTime: True
   MaxIdleConns: 10
   MaxOpenConns: 30
+
+#设置了 JWT 令牌的 Secret（密钥）为 ck，
+#  签发者（Issuer）是 blog-service，有效时间（Expire）为 7200 秒
+JWT:
+  Secret: ck
+  Issuer: blog-service
+  Expire: 7200
