@@ -26,10 +26,6 @@
 | /api/v1/article [post] | Create article |
 | /api/v1/article/{id} [put] | Update article |
 | /api/v1/article/{id} [delete] | Delete article |
-| /groups/{group_id}/group-users | グループにユーザーを追加する|
-| /groups/{group_id}/group-users | グループに所属するユーザーを一覧取得する|
-| /groups/{group_id}/group-users/{user_id} | グループからユーザーを脱退させる |
-| /upload/file -F file=@"/Users/chengkun02/Downloads/a.txt" -F type=1 | Upload file |
 
 ```go
 .
